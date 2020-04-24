@@ -7,8 +7,8 @@ namespace CS_EmploymentDetailsExtender
 {
     public class Mod : IUserMod
     {
-        public string Name { get { return "Employement Details Extension"; } }
-        public string Description { get { return "Add more informations about employment"; } }
+        public string Name { get { return "Detailed Employement and Workplaces Information"; } }
+        public string Description { get { return "Add more informations about employment and available workplaces by zone type."; } }
     }
 
     /**

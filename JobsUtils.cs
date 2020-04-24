@@ -45,7 +45,7 @@ namespace CS_EmploymentDetailsExtender
             return (int)(ded.m_finalEligibleWorkers - ded.m_finalUnemployed);
         }
 
-        private static DistrictEducationData GetEducationData(int educationLevel)
+        public static DistrictEducationData GetEducationData(int educationLevel)
         {
             District d = dm.m_districts.m_buffer[0];
 
