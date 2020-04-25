@@ -7,8 +7,8 @@
     <ProjectGuid>{6646AA7C-9307-4739-B8B1-FFE14239F45F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CS_EmploymentDetailsExtender</RootNamespace>
-    <AssemblyName>CS_JobDetailsExtender</AssemblyName>
+    <RootNamespace>DemographicsMod</RootNamespace>
+    <AssemblyName>DemographicsMod</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

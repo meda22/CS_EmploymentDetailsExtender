@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     /**
      * Title Bar source code from Skylines-ExtendedPublicTransport

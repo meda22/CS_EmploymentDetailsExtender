@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     /**
      * UIUtil source code from Skylines-ExtendedPublicTransport

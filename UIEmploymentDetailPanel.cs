@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     public class UIEmploymentDetailPanel : UIPanel
     {
@@ -21,12 +21,13 @@ namespace CS_EmploymentDetailsExtender
         //private UISlider[] m_EmploymentSlider = new UISlider[4];
 
         private UIChartPanel m_RadialPanel;
+        private UIChartPanel m_RadialPanel1;
 
         private static readonly int pad = 15;
         private static readonly int sep = 15;
         private static readonly int sliderHeight = 0;
         private static readonly int valueAnchor = 140;
-        private static readonly int valueAnchor1 = 260;
+        private static readonly int valueAnchor1 = 290;
 
         public override void Start()
         {
@@ -43,7 +44,7 @@ namespace CS_EmploymentDetailsExtender
             m_TableHeader.relativePosition = new Vector3(pad + 130, 50);
             m_TableHeader.textColor = new Color32(206, 248, 0, 255);
             m_TableHeader.textScale = 1f;
-            m_TableHeader.text = "Employees      Workplaces";
+            m_TableHeader.text = "Employees            Utilization";
 
             for (int i = 0; i < m_EmploymentLabels.Length; i++)
             {
@@ -53,17 +54,29 @@ namespace CS_EmploymentDetailsExtender
                 m_WorkplaceValues[i] = CreateWorkplaceValue(i);
             }
 
+            var rpos = m_EmploymentValues[m_EmploymentValues.Length - 1].relativePosition.y + sep + 30;
+
             m_RadialPanel = AddUIComponent<UIChartPanel>();
             m_RadialPanel.name = "ChartPanel";
-            m_RadialPanel.relativePosition = new Vector3(pad, m_EmploymentValues[m_EmploymentValues.Length - 1].relativePosition.y + sep);
+            m_RadialPanel.relativePosition = new Vector3(pad, rpos);
 
-            width = UIChartPanel.panelSize.x + pad * 2 + 100;
-            height = m_RadialPanel.relativePosition.y + UIChartPanel.panelSize.y + pad + 50;
+            m_RadialPanel1 = AddUIComponent<UIChartPanel>();
+            m_RadialPanel1.RadialChartPrefix = "workplaces";
+            m_RadialPanel1.name = "WorkplacesChartPanel";
+
+            m_RadialPanel1.relativePosition = new Vector3(pad * 4 + UIChartPanel.panelSize.x, rpos);
+
+            var emp = UIView.library.Get<PopulationInfoViewPanel>(typeof(PopulationInfoViewPanel).Name);
+
+            width = 450; //UIChartPanel.panelSize.x + pad * 2 + 100;
+            height = emp.component.height;//m_RadialPanel.relativePosition.y + UIChartPanel.panelSize.y + pad + 50;
 
             _title = AddUIComponent<UITitleContainer>();
             _title.name = "EmploymentTitlePanel";
             _title.IconSprite = "InfoIconPopulationPressed";
             _title.TitleText = "Employment & Workplaces";
+
+            tooltip = "Employed workers by education level and total workers compared to workplaces";
         }
 
         private UILabel CreateEmploymentLabel(int level) {
@@ -98,28 +111,7 @@ namespace CS_EmploymentDetailsExtender
             return label;
         }
 
-        /*
-        private UISlider CreateEmploymentSlider(int level)
-        {
-            UISlider slider = AddUIComponent<UISlider>();
-            slider.name = "Level" + level + "Slider";
-            //slider.size = new Vector2(x, y);
-            slider.relativePosition = new Vector3(valueAnchor, 50 + level * sep);
-            slider.minValue = 0f;
-
-            UITextureSprite uITextureSprite3 = base.Find<UITextureSprite>("LandfillGradient");
-            uITextureSprite3.renderMaterial.SetColor("_ColorA", Singleton<InfoManager>.instance.m_properties.m_modeProperties[16].m_targetColor);
-			uITextureSprite3.renderMaterial.SetColor("_ColorB", Singleton<InfoManager>.instance.m_properties.m_modeProperties[16].m_negativeColor);
-
-            UISprite thumb = base.Find<UISprite>("Thumb");
-            slider.thumbObject = thumb;
-
-            slider.AttachUIComponent(thumb.gameObject);
-            slider.AttachUIComponent(uITextureSprite3.gameObject);
-
-            return slider;
-        }
-         * */
+        
 
         public override void Update()
         {
@@ -131,20 +123,7 @@ namespace CS_EmploymentDetailsExtender
                     m_EmploymentLabels[i].text = JobsUtils.educationLevelNames[i];
                     m_EmploymentValues[i].text = ": " + JobsUtils.GetEmploymentLabel(i);
                     m_WorkplaceValues[i].text = BuildingsInfoManager.GetWorkplacesLabel(i);
-                    /*
-                    switch (i)
-                    {
-                        case 0: m_EmploymentValues[i].text += " / " + BuildingsInfoManager.WorkplacesUneducated; break;
-                        case 1: m_EmploymentValues[i].text += " / " + BuildingsInfoManager.WorkplacesEducated; break;
-                        case 2: m_EmploymentValues[i].text += " / " + BuildingsInfoManager.WorkplacesWellEducated; break;
-                        default: m_EmploymentValues[i].text += " / " + BuildingsInfoManager.WorkplacesHighlyEducated; break;
-
-                    }*/
-
-                    /*
-                    m_EmploymentSlider[i].maxValue = (float)JobsUtils.GetEmploymentMaxValue(i);
-                    m_EmploymentSlider[i].value = (float)JobsUtils.GetEmploymentCurrentValue(i);
-                    */
+                    
                 }
             }
         }

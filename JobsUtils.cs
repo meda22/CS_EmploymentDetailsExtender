@@ -3,7 +3,7 @@ using ICities;
 using ColossalFramework;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     public static class JobsUtils
     {

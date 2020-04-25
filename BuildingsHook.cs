@@ -8,7 +8,7 @@ using ICities;
 using ColossalFramework;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     public class BuildingsInfoManager : BuildingExtensionBase
     {
@@ -68,6 +68,7 @@ namespace CS_EmploymentDetailsExtender
                         {
                             case ItemClass.Service.FireDepartment:
                                 var ai1 = b.GetAI() as FireStationAI;
+                                if (ai1 == null) break;
                                 WorkplacesUneducated += ai1.m_workPlaceCount0;
                                 WorkplacesEducated += ai1.m_workPlaceCount1;
                                 WorkplacesWellEducated += ai1.m_workPlaceCount2;
@@ -75,12 +76,56 @@ namespace CS_EmploymentDetailsExtender
                                 break;
                             case ItemClass.Service.PoliceDepartment:
                                 var ai2 = b.GetAI() as PoliceStationAI;
+                                if (ai2 == null) break;
                                 WorkplacesUneducated += ai2.m_workPlaceCount0;
                                 WorkplacesEducated += ai2.m_workPlaceCount1;
                                 WorkplacesWellEducated += ai2.m_workPlaceCount2;
                                 WorkplacesHighlyEducated += ai2.m_workPlaceCount3;
                                 break;
-                                //case ItemClass.Service.
+                            case ItemClass.Service.HealthCare:
+                                var ai31 = b.GetAI() as CemeteryAI;
+                                if (ai31 != null)
+                                {
+                                    WorkplacesUneducated += ai31.m_workPlaceCount0;
+                                    WorkplacesEducated += ai31.m_workPlaceCount1;
+                                    WorkplacesWellEducated += ai31.m_workPlaceCount2;
+                                    WorkplacesHighlyEducated += ai31.m_workPlaceCount3;
+                                    break;
+                                }
+                                var ai3 = b.GetAI() as HospitalAI; 
+                                if (ai3 == null) break;
+                                WorkplacesUneducated += ai3.m_workPlaceCount0;
+                                WorkplacesEducated += ai3.m_workPlaceCount1;
+                                WorkplacesWellEducated += ai3.m_workPlaceCount2;
+                                WorkplacesHighlyEducated += ai3.m_workPlaceCount3;
+                                break;
+                            case ItemClass.Service.Electricity:
+                                var ai4 = b.GetAI() as PowerPlantAI;
+                                if (ai4 == null) break;
+                                WorkplacesUneducated += ai4.m_workPlaceCount0;
+                                WorkplacesEducated += ai4.m_workPlaceCount1;
+                                WorkplacesWellEducated += ai4.m_workPlaceCount2;
+                                WorkplacesHighlyEducated += ai4.m_workPlaceCount3;
+                                break;
+                            case ItemClass.Service.Water:
+                                var ai5 = b.GetAI() as WaterFacilityAI;
+                                if (ai5 != null)
+                                {
+                                    WorkplacesUneducated += ai5.m_workPlaceCount0;
+                                    WorkplacesEducated += ai5.m_workPlaceCount1;
+                                    WorkplacesWellEducated += ai5.m_workPlaceCount2;
+                                    WorkplacesHighlyEducated += ai5.m_workPlaceCount3;
+                                    break;
+                                }
+                                var ai6 = b.GetAI() as WaterCleanerAI;
+                                if (ai6 == null) break;
+                                WorkplacesUneducated += ai6.m_workPlaceCount0;
+                                WorkplacesEducated += ai6.m_workPlaceCount1;
+                                WorkplacesWellEducated += ai6.m_workPlaceCount2;
+                                WorkplacesHighlyEducated += ai6.m_workPlaceCount3;
+                                break;
+
+
                             default: break;
                         }
                         
@@ -122,6 +167,23 @@ namespace CS_EmploymentDetailsExtender
                 case 2: return WorkplacesWellEducated;
                 default: return WorkplacesHighlyEducated;
             }
+        }
+
+        public static float GetPercent(int educationLevel)
+        {
+            DistrictEducationData ded = JobsUtils.GetEducationData(educationLevel);
+            int wp = getWorkplacesByLevel(educationLevel);
+            float percent;
+            if (wp == 0)
+            {
+                if (ded.m_finalEligibleWorkers == 0)
+                    percent = 0;
+                else percent = 1;
+            }
+                
+            else
+                percent = (float)ded.m_finalEligibleWorkers / (float)wp;
+            return percent;
         }
 
         public static string GetWorkplacesLabel(int educationLevel)

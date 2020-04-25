@@ -3,11 +3,11 @@ using ICities;
 using ColossalFramework.UI;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     public class Mod : IUserMod
     {
-        public string Name { get { return "Detailed Employement and Workplaces Information"; } }
+        public string Name { get { return "Detailed Employment and Workplaces Information"; } }
         public string Description { get { return "Add more informations about employment and available workplaces by zone type."; } }
     }
 

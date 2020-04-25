@@ -3,16 +3,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CS_EmploymentDetailsExtender
+namespace DemographicsMod
 {
     class UIChartPanel : UIPanel
     {
         private UIRadialChart[] m_RadialChart = new UIRadialChart[4];
 
-        private static readonly Vector2 chartSize = new Vector2(112, 112);
+        private UIGraph m_graph;
+
+        private static readonly Vector2 chartSize = new Vector2(64, 64);
 
         private static readonly int chartPadding = 5;
         private static readonly int chartSeparator = 10;
+
+        private static readonly float[] _chartLine = new float[]
+        {
+            1,4,3,8,6,12,14,21,18,13,29
+        };
+
+        public string RadialChartPrefix { get; set; }
 
         public static readonly Vector2 panelSize = new Vector2(chartPadding * 2 + chartSeparator + chartSize.x * 2, chartPadding * 2 + chartSeparator + chartSize.y * 2);
 
@@ -31,6 +40,23 @@ namespace CS_EmploymentDetailsExtender
             {
                 m_RadialChart[i] = CreateRadialChart(i);
             }
+
+            //CreateGraph();
+        }
+
+        private void CreateGraph()
+        {
+            m_graph = AddUIComponent<UIGraph>();
+            m_graph.enabled = true;
+            m_graph.isVisible = true;
+            m_graph.name = "EmploymentGraph";
+            m_graph.size = new Vector2(250, 120);
+            m_graph.relativePosition = new Vector2(chartPadding, 200);
+
+            m_graph.color = new Color32(200, 200, 200,255);
+
+            m_graph.AddCurve("TestData", "EN-US", _chartLine, 2, new Color32(132, 55, 55, 255));
+
         }
 
         private UIRadialChart CreateRadialChart(int level)
@@ -38,7 +64,7 @@ namespace CS_EmploymentDetailsExtender
             UIRadialChart rc = AddUIComponent<UIRadialChart>();
             rc.isEnabled = true;
             rc.isVisible = true;
-            rc.name = "EmploymentChartLevel" + level;
+            rc.name = RadialChartPrefix + "EmploymentChartLevel" + level;
             rc.size = chartSize;
             rc.relativePosition = new Vector2(chartPadding + (level % 2 * (rc.size.x + chartSeparator)), chartPadding + (level / 2 * (rc.size.y + chartSeparator)));
             rc.zOrder = 2;
@@ -65,7 +91,18 @@ namespace CS_EmploymentDetailsExtender
             {
                 for (int i = 0; i < m_RadialChart.Length; i++)
                 {
-                    float percent = JobsUtils.GetPercentEmployedF(i);
+                    float percent;
+                    switch (RadialChartPrefix)
+                    {
+                        case "workplaces":
+                            percent = BuildingsInfoManager.GetPercent(i);
+                            break;
+                        default:
+                            percent = JobsUtils.GetPercentEmployedF(i);
+                            break;
+
+                    }
+                    
                     m_RadialChart[i].SetValues(new float[] { percent, 1f - percent });
                 }
                 
