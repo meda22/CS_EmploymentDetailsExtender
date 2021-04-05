@@ -1,6 +1,4 @@
 ﻿using ColossalFramework.UI;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DemographicsMod
@@ -16,20 +14,19 @@ namespace DemographicsMod
         private static readonly int chartPadding = 5;
         private static readonly int chartSeparator = 10;
 
-        private static readonly float[] _chartLine = new float[]
-        {
+        private static readonly float[] _chartLine = {
             1,4,3,8,6,12,14,21,18,13,29
         };
 
         public string RadialChartPrefix { get; set; }
 
-        public static readonly Vector2 panelSize = new Vector2(chartPadding * 2 + chartSeparator + chartSize.x * 2, chartPadding * 2 + chartSeparator + chartSize.y * 2);
+        public static readonly Vector2 panelSize = 
+            new Vector2(chartPadding * 2 + chartSeparator + chartSize.x * 2f, 
+                chartPadding * 2 + chartSeparator + chartSize.y * 2f);
 
         public override void Start()
         {
             base.Start();
-
-            //backgroundSprite = "InfoviewPanel"; //White Bakground
             isVisible = true;
             canFocus = true;
             isInteractive = true;
@@ -40,8 +37,6 @@ namespace DemographicsMod
             {
                 m_RadialChart[i] = CreateRadialChart(i);
             }
-
-            //CreateGraph();
         }
 
         private void CreateGraph()
@@ -52,9 +47,7 @@ namespace DemographicsMod
             m_graph.name = "EmploymentGraph";
             m_graph.size = new Vector2(250, 120);
             m_graph.relativePosition = new Vector2(chartPadding, 200);
-
             m_graph.color = new Color32(200, 200, 200,255);
-
             m_graph.AddCurve("TestData", "EN-US", _chartLine, 2, new Color32(132, 55, 55, 255));
 
         }
@@ -66,13 +59,14 @@ namespace DemographicsMod
             rc.isVisible = true;
             rc.name = RadialChartPrefix + "EmploymentChartLevel" + level;
             rc.size = chartSize;
-            rc.relativePosition = new Vector2(chartPadding + (level % 2 * (rc.size.x + chartSeparator)), chartPadding + (level / 2 * (rc.size.y + chartSeparator)));
+            rc.relativePosition = new Vector2(chartPadding + (level % 2 * (rc.size.x + chartSeparator)),
+                chartPadding + (float)(level / 2) * (rc.size.y + (float)chartSeparator));
             rc.zOrder = 2;
             rc.spriteName = "PieChartWhiteBg";
 
             rc.AddSlice();
             UIRadialChart.SliceSettings slice0 = rc.GetSlice(0);
-            Color32 color = JobsUtils.educationLevelColors[level];
+            Color32 color = JobsUtils.EducationLevelColors[level];
             slice0.outterColor = color;
             slice0.innerColor = color;
 

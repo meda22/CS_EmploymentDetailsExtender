@@ -1,14 +1,16 @@
-﻿using System;
-using ICities;
+﻿using ICities;
 using ColossalFramework.UI;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace DemographicsMod
 {
     public class Mod : IUserMod
     {
-        public string Name { get { return "Detailed Employment and Workplaces Information"; } }
-        public string Description { get { return "Add more informations about employment and available workplaces by zone type."; } }
+        public string Name { get { return "Detailed Employment and Workplaces Info (Industry Areas included :))"; } }
+        public string Description { get { return "Upgrade of already existing mods which provide more detailed " +
+                                                 "information about employment and workplaces in your city. " +
+                                                 "Services and Industry Areas included."; } }
     }
 
     /**
@@ -45,7 +47,7 @@ namespace DemographicsMod
 
             if (_employmentDetailsPanel == null)
             {
-                Debug.Log("Failed to create Employement Detail Panel");
+                Debug.Log("Failed to create Employment Detail Panel");
                 return;
             }
 
@@ -73,10 +75,10 @@ namespace DemographicsMod
             }
 
             if (_employmentDetailsPanel != null)
-                GameObject.Destroy(_employmentDetailsPanel.gameObject);
+                Object.Destroy(_employmentDetailsPanel.gameObject);
 
             if (_unemploymentButton != null)
-                GameObject.Destroy(_unemploymentButton.gameObject);
+                Object.Destroy(_unemploymentButton.gameObject);
         }
 
         private void HookIntoNativeUI()
@@ -85,7 +87,7 @@ namespace DemographicsMod
 
             if (_unemployementPanel == null)
             {
-                Debug.Log("Failed to locate Unemployement Panel - could not hook into native UI.");
+                Debug.Log("Failed to locate Unemployment Panel - could not hook into native UI.");
                 return;
             }
 
@@ -93,7 +95,7 @@ namespace DemographicsMod
 
             if (_unemploymentButton == null)
             {
-                Debug.Log("Failed to add Unemployement Button - could not hook into native UI.");
+                Debug.Log("Failed to add Unemployment Button - could not hook into native UI.");
                 return;
             }
 
@@ -116,6 +118,11 @@ namespace DemographicsMod
         private void UnemployementButtonOnEventClick(UIComponent component, UIMouseEventParameter eventParam)
         {
             _employmentDetailsPanel.isVisible = !_employmentDetailsPanel.isVisible;
+            if (_employmentDetailsPanel.isVisible)
+            {
+                BuildingsInfoManager.ShouldWeCount = true;
+                BuildingsInfoManager.CalculateAllWorkplaces();
+            }
             _employmentDetailsPanel.relativePosition = new Vector3(438, 58);
         }
     }

@@ -1,5 +1,5 @@
-﻿using ColossalFramework.UI;
-using System;
+﻿using System;
+using ColossalFramework.UI;
 using UnityEngine;
 
 namespace DemographicsMod
@@ -61,7 +61,7 @@ namespace DemographicsMod
 
             if (parent == null)
             {
-                Debug.Log(String.Format("Parent not set in {0}", this.GetType().Name));
+                Debug.Log(string.Format("Parent not set in {0}", this.GetType().Name));
                 return;
             }
 
@@ -86,7 +86,10 @@ namespace DemographicsMod
             _lock.normalBgSprite = "LocationMarkerNormal";
             _lock.hoveredBgSprite = "LocationMarkerHovered";
             _lock.pressedBgSprite = "LocationMarkerPressed";
-            _lock.eventClick += (component, param) => LockButtonOnEventClick(component, param);
+            _lock.eventClick += delegate(UIComponent component, UIMouseEventParameter param)
+            {
+                LockButtonOnEventClick(component, param);
+            };
 
             _close.relativePosition = new Vector3(width - 35, 2);
             _close.normalBgSprite = "buttonclose";

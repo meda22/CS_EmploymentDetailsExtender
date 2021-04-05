@@ -1,16 +1,14 @@
-﻿using System;
-using ICities;
-using ColossalFramework;
+﻿using ColossalFramework;
 using UnityEngine;
 
 namespace DemographicsMod
 {
     public static class JobsUtils
     {
-        private static readonly DistrictManager dm = Singleton<DistrictManager>.instance;
+        private static readonly DistrictManager districtManager = Singleton<DistrictManager>.instance;
 
         /* TODO : replace by dynamic ingame values */
-        public static readonly Color32[] educationLevelColors = new Color32[] {
+        public static readonly Color32[] EducationLevelColors = {
             new Color32(241, 136, 136, 255),
             new Color32(251, 212, 0, 255),
             new Color32(141, 149, 55, 255),
@@ -18,7 +16,7 @@ namespace DemographicsMod
         };
 
         /* TODO : replace by dynamic ingame values (and if possible localized) */
-        public static readonly String[] educationLevelNames = new String[] {
+        public static readonly string[] EducationLevelNames = {
             "Uneducated",
             "Educated",
             "Well Educated",
@@ -30,7 +28,8 @@ namespace DemographicsMod
             DistrictEducationData ded = GetEducationData(educationLevel);
             int percent = GetPercentEmployed(educationLevel);
 
-            return percent + "% (" + (ded.m_finalEligibleWorkers - ded.m_finalUnemployed) + "/" + ded.m_finalEligibleWorkers + ")";
+            return percent + "% (" + (ded.m_finalEligibleWorkers - ded.m_finalUnemployed) + 
+                   "/" + ded.m_finalEligibleWorkers + ")";
         }
 
         public static int GetEmploymentMaxValue(int educationLevel)
@@ -47,7 +46,7 @@ namespace DemographicsMod
 
         public static DistrictEducationData GetEducationData(int educationLevel)
         {
-            District d = dm.m_districts.m_buffer[0];
+            District d = districtManager.m_districts.m_buffer[0];
 
             DistrictEducationData ded = d.m_educated0Data;
             switch (educationLevel)
