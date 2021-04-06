@@ -1,5 +1,5 @@
-# CS_EmploymentDetailsExtender
+# More Employment Information
 
-Files for the City Skyline Mod Employment Details
+Files for the City Skyline Mod More Employment Information
 
-http://steamcommunity.com/sharedfiles/filedetails/?id=439719204
+https://steamcommunity.com/sharedfiles/filedetails/?id=2448923697
